@@ -13,6 +13,7 @@ jobs:
       - name: Validate required files
         run: |
           test -f index.html
+          test -f mission.html
           test -f health.json
           test -f estate-site.json
           test -f vercel.json
@@ -21,6 +22,15 @@ jobs:
           python -m json.tool health.json >/dev/null
           python -m json.tool estate-site.json >/dev/null
           python -m json.tool vercel.json >/dev/null
+      - name: Verify public navigation
+        run: |
+          grep -q 'href="/mission"' index.html
+          grep -q 'href="/"' mission.html
+      - name: Verify mission content boundaries
+        run: |
+          grep -q 'Build a common infrastructure' mission.html
+          grep -q 'Utility before scale' mission.html
+          grep -q 'Federation over concentration' mission.html
       - name: Verify federation links
         run: |
           grep -q 'https://creators-common.org' index.html
