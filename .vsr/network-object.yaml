@@ -1,0 +1,27 @@
+schema: vsr.network-object/v1
+network_object: BELIEVERS-COMMON-PUBLIC-APP-001
+repo_role: client
+authority_boundary: WARDEN
+canonical_source:
+  repository: Believers-common-group/SynergyzeGovernance
+  branch: HQ
+  contract: docs/CANONICAL-INDEX.md
+depends_on:
+  - REGISTRY
+  - WARDEN
+  - REG-SITE-001
+consumed_by:
+  - ALPHA-NODE-001
+  - VSR
+  - PARTICIPANTS
+lineage:
+  predecessor: null
+  supersedes: null
+  superseded_by: null
+status: active
+provenance:
+  upstream: []
+  licence_review_required: true
+contribution:
+  architecture_decisions_repo: Believers-common-group/SynergyzeGovernance
+  architectural_change_requires_network_object_id: true
