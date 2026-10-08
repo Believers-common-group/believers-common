@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Commons Gate 2 — Registry & Warden Review</title>
+<style>
+:root{font-family:Inter,system-ui,sans-serif;color:#e9f1f4;background:#08111b;--edge:#293e4d;--muted:#a0b4c6;--teal:#71e5cd}
+*{box-sizing:border-box}body{margin:0}button,select{font:inherit}button{cursor:pointer}a{color:#90ddf0}
+header{display:flex;gap:16px;justify-content:space-between;align-items:center;padding:18px clamp(16px,4vw,48px);background:#0d1d2b;border-bottom:1px solid var(--edge);flex-wrap:wrap}header a{font-size:13px}
+h1{font-size:21px;margin:3px 0}h2{font-size:16px;margin:0 0 12px}p{line-height:1.5}small,.muted{color:var(--muted)}.label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#87b6be}
+main{max-width:1240px;margin:0 auto;padding:24px 16px 50px}.notice{padding:13px 17px;background:#233024;border:1px solid #877448;border-radius:9px;color:#ffe1a7;margin-bottom:21px}
+.layout{display:grid;grid-template-columns:minmax(240px,.75fr) minmax(290px,1.1fr) minmax(260px,1fr);gap:14px}
+section{background:#11212d;border:1px solid var(--edge);border-radius:13px;padding:19px;min-width:0}label{display:block;font-size:12px;color:#a5bac9;margin-top:13px}select{display:block;width:100%;margin-top:6px;background:#0a1622;color:white;padding:10px;border-radius:7px;border:1px solid #466078}
+button{background:#1c4350;border:1px solid #5b9c9e;color:#dff9ef;border-radius:9px;padding:11px 14px;margin-top:16px;font-weight:650}
+button:focus-visible,select:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+button:disabled{opacity:.55;cursor:not-allowed}
+.route{margin:12px 0 0;padding:12px;background:#091722;border:1px solid #2d495d;border-radius:9px;font-size:12px}
+.route div{margin-bottom:8px}
+.tag{display:inline-block;font-size:11px;background:#342b1d;color:#f7d29c;border-radius:6px;padding:4px 6px}
+pre{white-space:pre-wrap;word-break:break-word;max-height:440px;overflow:auto;font-size:11px;background:#08151f;padding:13px;border-radius:10px;line-height:1.6}
+.output{margin-top:12px;font-size:12px;color:#f1c7a3}
+ul{padding-left:19px;font-size:13px;line-height:1.65}
+footer{font-size:12px;color:#9cb0bf;margin-top:24px}
+@media(max-width:960px){.layout{grid-template-columns:1fr 1fr}.layout section:last-child{grid-column:1/-1}}
+@media(max-width:630px){.layout{grid-template-columns:1fr}.layout section:last-child{grid-column:auto}}
+</style></head><body>
+<header><div><span class="label">COMMONS / GENESIS / WARDEN · GATE 2</span><h1>Location Directory & Transfer Review</h1><small>R0.3 contract prototype · read-only fixture · no runtime authority</small></div><a href="./">← Mission Chat R0.2</a></header>
+<main><div class="notice"><strong>Demo, not registration.</strong> Names and navigation links are illustrative. DigitalMe identity, Warden decisions, River evidence reservations, and live provider adapters are not connected. This screen cannot approve or execute Patch/Port.</div>
+<div class="layout">
+<section><span class="label">01 / GENESIS-STYLE DISCOVERY</span><h2>Select a Location</h2><label for="source">Location</label><select id="source"></select><div class="route" id="hierarchy" aria-live="polite">Loading…</div><h2 style="margin-top:20px">Registered Doors</h2><div id="doors" class="route"></div><p class="muted" style="font-size:12px">Earth → Virtual Estate → Place → Location → Door → Room → Window. Registry discovery is distinct from Warden authority.</p></section>
+<section><span class="label">02 / PATCH OR PORT REVIEW</span><h2>Review Destination Scope</h2><label for="mode">Operation</label><select id="mode"><option value="PATCH">Patch — structure only</option><option value="PORT">Port — one destination</option></select><label for="window">Source window</label><select id="window"></select><label for="target">Linked destination</label><select id="target"></select><button id="review" type="button">Prepare fail-closed review</button><div class="output" id="summary" role="status">No transfer evaluated.</div><p class="muted" style="font-size:12px">Real execution requires source disclosure and recipient admission checks per target, plus a River reservation. No client-supplied ALLOW can authorize execution.</p></section>
+<section><span class="label">03 / AUDITABLE INTENT</span><h2>Gate Result</h2><span class="tag">DENIED WITHOUT TRUSTED BACKEND</span><pre id="result" aria-label="Machine-readable review">Waiting for review…</pre><button id="permit" disabled type="button">Execute (unavailable)</button><p class="muted" style="font-size:12px">This is an untrusted client preview. It is not a Warden decision or legal evidence receipt.</p></section>
+</div><footer>Source: Commons Mission Chat Gate 2 proposal. Canonical Registry R1–R5 remains separate; Warden policy/admission and RiverOS custody are required for any external effect. Public demonstration data only.</footer></main>
+<script type="module">
+import {validateSnapshot,linkedLocations,prepareTransferReview,authorizeExecution} from './governance-gate.mjs';
+const $=id=>document.getElementById(id);
+const opt=(value,label)=>{const o=document.createElement('option');o.value=value;o.textContent=label;return o};
+let snapshot;
+const clear=el=>el.replaceChildren();
+const output=text=>{$('summary').textContent=text};
+function draw(){
+ const l=snapshot.locations.find(l=>l.ref===$('source').value);if(!l)return;
+ const w=snapshot.windows.filter(w=>w.location_ref===l.ref);
+ clear($('window'));w.forEach(x=>$('window').append(opt(x.ref,x.name)));
+ const targets=linkedLocations(snapshot,l.ref);clear($('target'));targets.forEach(x=>$('target').append(opt(x.ref,x.name+' · '+x.source_status)));
+ $('target').disabled=!targets.length;$('review').disabled=!w.length||!targets.length;
+ $('hierarchy').textContent='Earth → '+l.estate_ref+' → '+l.place_ref+' → '+l.name;
+ clear($('doors'));for(const d of l.doors){const div=document.createElement('div');div.textContent=d.name+' → '+d.rooms.map(r=>r.name).join(', ');$('doors').append(div)}
+ output('Navigation references loaded. No access granted.');$('result').textContent='Waiting for review…';
+}
+$('source').addEventListener('change',draw);
+$('review').addEventListener('click',()=>{
+ try{
+   const v=prepareTransferReview(snapshot,{mode:$('mode').value,sourceLocationRef:$('source').value,windowRefs:[$('window').value],destinationLocationRefs:[$('target').value],includeMessages:false});
+   const deny=authorizeExecution(v);
+   $('result').textContent=JSON.stringify({review:v,execution_gate:deny},null,2);
+   output('Review prepared. '+deny.decision+' — '+deny.reason+'.');
+ }catch(err){$('result').textContent=String(err);output('Review invalid; no execution.')}
+});
+try {
+ const response=await fetch('./fixtures/demo-locations.v1.json',{cache:'no-store',credentials:'omit'});
+ if(!response.ok)throw Error('FIXTURE_FETCH_FAILED');
+ snapshot=await response.json();validateSnapshot(snapshot);
+ snapshot.locations.forEach(l=>$('source').append(opt(l.ref,l.name+' · '+l.source_status)));
+ draw();
+}catch(err){$('source').disabled=true;$('review').disabled=true;$('result').textContent=String(err);output('Fail-closed: fixture unavailable or invalid.')}
+</script></body></html>

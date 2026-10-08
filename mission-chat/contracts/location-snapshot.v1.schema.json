@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commons:mission:location-snapshot:v1",
+  "title": "Commons Location Snapshot (demo-only)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "environment",
+    "issuer",
+    "snapshot_ref",
+    "locations",
+    "windows",
+    "links"
+  ],
+  "properties": {
+    "contract": {
+      "const": "commons.location.snapshot.v1"
+    },
+    "environment": {
+      "const": "DEMO_ONLY"
+    },
+    "issuer": {
+      "const": "LOCAL_DEMONSTRATION_NOT_GENESIS"
+    },
+    "snapshot_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "locations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref",
+          "name",
+          "estate_ref",
+          "place_ref",
+          "kind",
+          "source_status",
+          "registration_state",
+          "doors"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "pattern": "^demo:location:"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "estate_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "place_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "VIRTUAL",
+              "PHYSICAL",
+              "HYBRID"
+            ]
+          },
+          "source_status": {
+            "enum": [
+              "KNOWN_PUBLIC_ENTRY",
+              "PLACEHOLDER",
+              "REFERENCE_ONLY"
+            ]
+          },
+          "registration_state": {
+            "const": "UNREGISTERED"
+          },
+          "public_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "doors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ref",
+                "name",
+                "rooms"
+              ],
+              "properties": {
+                "ref": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "rooms": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "ref",
+                      "name"
+                    ],
+                    "properties": {
+                      "ref": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "windows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref",
+          "location_ref",
+          "door_ref",
+          "room_ref",
+          "name",
+          "context"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string"
+          },
+          "location_ref": {
+            "type": "string"
+          },
+          "door_ref": {
+            "type": "string"
+          },
+          "room_ref": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "context": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref",
+          "source_ref",
+          "target_ref",
+          "type"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string"
+          },
+          "source_ref": {
+            "type": "string"
+          },
+          "target_ref": {
+            "type": "string"
+          },
+          "type": {
+            "const": "DEMO_NAVIGATION"
+          }
+        }
+      }
+    }
+  }
+}

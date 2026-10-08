@@ -1,0 +1,41 @@
+name: Commons Mission Chat Gate 2
+
+on:
+  pull_request:
+    paths:
+      - 'mission-chat/**'
+      - '.github/workflows/commons-mission-chat-gate2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fail-closed-contract:
+    name: Gate 2 negative tests and JSON structure
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON fixtures and contracts
+        run: |
+          python3 -m json.tool mission-chat/contracts/location-snapshot.v1.schema.json > /dev/null
+          python3 -m json.tool mission-chat/contracts/transfer-intent.v1.schema.json > /dev/null
+          python3 -m json.tool mission-chat/fixtures/demo-locations.v1.json > /dev/null
+      - name: Validate JS syntax
+        run: |
+          node --check mission-chat/governance-gate.mjs
+          node --check mission-chat/tests/governance-gate.test.mjs
+      - name: Run zero-effect conformance tests
+        run: node --test mission-chat/tests/*.test.mjs
+      - name: Confirm public route and existing pages preserved
+        run: |
+          test -f index.html
+          test -f mission.html
+          test -f mission-chat/index.html
+          test -f mission-chat/governance-review.html
+          test -f health.json
+          test -f estate-site.json
+          test -f vercel.json
+          grep -q 'governance-review.html' mission-chat/index.html
+          grep -q 'DENIED_NO_TRUSTED_BACKEND' mission-chat/governance-gate.mjs

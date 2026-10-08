@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commons:mission:transfer-intent:v1",
+  "title": "Commons Transfer Review Intent (never authority)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "mode",
+    "source_location_ref",
+    "source_window_refs",
+    "targets",
+    "include_messages",
+    "intent_status",
+    "execution_status",
+    "note"
+  ],
+  "properties": {
+    "contract": {
+      "const": "commons.mission.transfer-intent.v1"
+    },
+    "mode": {
+      "enum": [
+        "PATCH",
+        "PORT"
+      ]
+    },
+    "source_location_ref": {
+      "type": "string"
+    },
+    "source_window_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "target_location_ref",
+          "registry_resolution",
+          "digitalme_identity",
+          "warden_source_disclosure",
+          "warden_target_receive",
+          "river_reservation",
+          "execution"
+        ],
+        "properties": {
+          "target_location_ref": {
+            "type": "string"
+          },
+          "registry_resolution": {
+            "const": "DEMO_UNREGISTERED"
+          },
+          "digitalme_identity": {
+            "const": "UNVERIFIED"
+          },
+          "warden_source_disclosure": {
+            "const": "NOT_EVALUATED"
+          },
+          "warden_target_receive": {
+            "const": "NOT_EVALUATED"
+          },
+          "river_reservation": {
+            "const": "NOT_PRESENT"
+          },
+          "execution": {
+            "const": "BLOCKED"
+          }
+        }
+      }
+    },
+    "include_messages": {
+      "const": false
+    },
+    "intent_status": {
+      "const": "REVIEW_ONLY"
+    },
+    "execution_status": {
+      "const": "DENIED_NO_TRUSTED_BACKEND"
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}
