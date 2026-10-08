@@ -1,0 +1,175 @@
+{
+  "contract": "commons.location.snapshot.v1",
+  "environment": "DEMO_ONLY",
+  "issuer": "LOCAL_DEMONSTRATION_NOT_GENESIS",
+  "snapshot_ref": "demo:snapshot:commons-r03",
+  "locations": [
+    {
+      "ref": "demo:location:believers-common",
+      "name": "Believers Common Portal",
+      "estate_ref": "demo:estate:believers-common",
+      "place_ref": "demo:place:public-web",
+      "kind": "VIRTUAL",
+      "source_status": "KNOWN_PUBLIC_ENTRY",
+      "registration_state": "UNREGISTERED",
+      "public_url": "https://believerscommon.com",
+      "doors": [
+        {
+          "ref": "demo:door:bc-reception",
+          "name": "Commons Reception",
+          "rooms": [
+            {
+              "ref": "demo:room:bc-mission",
+              "name": "Mission Hall"
+            }
+          ]
+        },
+        {
+          "ref": "demo:door:bc-office-liaison",
+          "name": "Office Liaison",
+          "rooms": [
+            {
+              "ref": "demo:room:bc-liaison",
+              "name": "Liaison Room"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ref": "demo:location:creators-common",
+      "name": "Creators Common Studio",
+      "estate_ref": "demo:estate:creators-common",
+      "place_ref": "demo:place:public-web",
+      "kind": "VIRTUAL",
+      "source_status": "KNOWN_PUBLIC_ENTRY",
+      "registration_state": "UNREGISTERED",
+      "public_url": "https://creators-common.org",
+      "doors": [
+        {
+          "ref": "demo:door:cc-studio",
+          "name": "Studio",
+          "rooms": [
+            {
+              "ref": "demo:room:cc-projects",
+              "name": "Projects"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ref": "demo:location:virtual-silk-road",
+      "name": "Virtual Silk Road Hub",
+      "estate_ref": "demo:estate:virtual-silk-road",
+      "place_ref": "demo:place:public-web",
+      "kind": "VIRTUAL",
+      "source_status": "KNOWN_PUBLIC_ENTRY",
+      "registration_state": "UNREGISTERED",
+      "public_url": "https://virtualsilkroad.com",
+      "doors": [
+        {
+          "ref": "demo:door:vsr-network",
+          "name": "Network",
+          "rooms": [
+            {
+              "ref": "demo:room:vsr-mission",
+              "name": "Mission Room"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ref": "demo:location:corporate-office",
+      "name": "Corporate Office (unverified placeholder)",
+      "estate_ref": "demo:estate:corporate",
+      "place_ref": "demo:place:unverified",
+      "kind": "VIRTUAL",
+      "source_status": "PLACEHOLDER",
+      "registration_state": "UNREGISTERED",
+      "doors": [
+        {
+          "ref": "demo:door:office-reception",
+          "name": "Office Reception",
+          "rooms": [
+            {
+              "ref": "demo:room:office-reception",
+              "name": "Reception"
+            }
+          ]
+        },
+        {
+          "ref": "demo:door:office-corporate",
+          "name": "Corporate Office Door",
+          "rooms": [
+            {
+              "ref": "demo:room:office-mission",
+              "name": "Corporate Mission"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "windows": [
+    {
+      "ref": "demo:window:bc-mission",
+      "location_ref": "demo:location:believers-common",
+      "door_ref": "demo:door:bc-reception",
+      "room_ref": "demo:room:bc-mission",
+      "name": "Commons Mission",
+      "context": "GOVERNANCE"
+    },
+    {
+      "ref": "demo:window:cc-studio",
+      "location_ref": "demo:location:creators-common",
+      "door_ref": "demo:door:cc-studio",
+      "room_ref": "demo:room:cc-projects",
+      "name": "Creator Co-build",
+      "context": "PROJECT"
+    },
+    {
+      "ref": "demo:window:vsr-network",
+      "location_ref": "demo:location:virtual-silk-road",
+      "door_ref": "demo:door:vsr-network",
+      "room_ref": "demo:room:vsr-mission",
+      "name": "Network Mission",
+      "context": "OPERATIONS"
+    },
+    {
+      "ref": "demo:window:office-mission",
+      "location_ref": "demo:location:corporate-office",
+      "door_ref": "demo:door:office-corporate",
+      "room_ref": "demo:room:office-mission",
+      "name": "Corporate Office Mission",
+      "context": "OFFICE"
+    }
+  ],
+  "links": [
+    {
+      "ref": "demo:link:bc-cc",
+      "source_ref": "demo:location:believers-common",
+      "target_ref": "demo:location:creators-common",
+      "type": "DEMO_NAVIGATION"
+    },
+    {
+      "ref": "demo:link:bc-vsr",
+      "source_ref": "demo:location:believers-common",
+      "target_ref": "demo:location:virtual-silk-road",
+      "type": "DEMO_NAVIGATION"
+    },
+    {
+      "ref": "demo:link:bc-office",
+      "source_ref": "demo:location:believers-common",
+      "target_ref": "demo:location:corporate-office",
+      "type": "DEMO_NAVIGATION"
+    },
+    {
+      "ref": "demo:link:vsr-office",
+      "source_ref": "demo:location:virtual-silk-road",
+      "target_ref": "demo:location:corporate-office",
+      "type": "DEMO_NAVIGATION"
+    }
+  ]
+}
